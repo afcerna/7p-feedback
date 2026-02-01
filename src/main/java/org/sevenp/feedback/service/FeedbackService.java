@@ -5,6 +5,7 @@ import org.sevenp.feedback.dto.FeedbackResponseDto;
 import org.sevenp.feedback.entity.Feedback;
 import org.sevenp.feedback.repository.FeedbackRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +20,7 @@ public class FeedbackService {
         this.feedbackRepository = feedbackRepository;
     }
 
+    @Transactional
     public FeedbackResponseDto createFeedback(FeedbackRequestDto request) {
         Feedback feedback = new Feedback(request.message(), request.author());
         Feedback saved = feedbackRepository.save(feedback);
@@ -31,6 +33,7 @@ public class FeedbackService {
                 .toList();
     }
 
+    @Transactional
     public Optional<FeedbackResponseDto> markHelpful(UUID id) {
         return feedbackRepository.findById(id)
                 .map(feedback -> {
